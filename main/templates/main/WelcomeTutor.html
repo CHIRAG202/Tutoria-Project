@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+
+  <meta charset="utf-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/materialdesignicons.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/prettyPhoto.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/unslider.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/template.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title> Tutoria </title>
+<style>
+* {box-sizing: border-box;}
+ul {list-style-type: none;}
+
+.month {
+    padding: 70px 25px;
+    width: 100%;
+    background: #1abc9c;
+    text-align: center;
+}
+
+.month ul {
+    margin: 0;
+    padding: 0;
+}
+
+.month ul li {
+    color: white;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.month .prev {
+    float: left;
+    padding-top: 10px;
+}
+
+.month .next {
+    float: right;
+    padding-top: 10px;
+}
+
+.weekdays {
+    margin: 0;
+    padding: 10px 0;
+    background-color: #ddd;
+}
+
+.weekdays li {
+    display: inline-block;
+    width: 12.0%;
+    color: #666;
+    text-align: center;
+}
+
+.wdays {
+    margin: 0;
+    padding: 10px 0;
+    background-color: #ddd;
+}
+
+.wdays li {
+    display: inline-block;
+    width: 12.0%;
+    color: #666;
+    text-align: center;
+}
+.days {
+    padding: 10px 0;
+    background: #eee;
+    margin: 0;
+}
+
+.days li {
+    list-style-type: none;
+    display: inline-block;
+    width: 12.0%;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size:12px;
+    color: #777;
+}
+
+.days li .active {
+    padding: 5px;
+    background: #1abc9c;
+    color: white !important
+}
+
+.days li .blocked {
+    padding: 5px;
+    background: #000000;
+    color: white !important
+}
+
+.days li .available {
+    padding: 5px;
+    background: #ddd;
+}
+
+.days li .elapsed {
+    padding: 5px;
+    background: #777777;
+    color: white !important
+}
+.days li .booked {
+    padding: 5px;
+    background: #960018;
+    color: white !important
+}
+
+
+/* Add media queries for smaller screens */
+@media screen and (max-width:720px) {
+    .weekdays li, .days li {width: 13.1%;}
+}
+
+@media screen and (max-width: 420px) {
+    .weekdays li, .days li {width: 12.5%;}
+    .days li .active {padding: 2px;}
+}
+
+@media screen and (max-width: 290px) {
+    .weekdays li, .days li {width: 12.2%;}
+}
+</style>
+</head>
+
+<body data-target="#nino-navbar" data-spy="scroll">
+
+	<!-- Header
+    ================================================== -->
+	<header id="nino-header">
+		<div id="nino-headerInner">
+			<nav id="nino-navbar" class="navbar navbar-default" role="navigation">
+				<div class="container">
+
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nino-navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="{% url 'main:tutor_home' %}">Tutoria</a>
+					</div>
+
+					<!-- Collect the nav links, forms, and other content for toggling -->
+
+
+					<div class="nino-menuItem pull-right">
+						<div class="collapse navbar-collapse pull-left" id="nino-navbar-collapse">
+
+
+
+
+							<ul class="nav navbar-nav">
+								<!--
+								<li class="active"><a href="#nino-header">Home <span class="sr-only">(current)</span></a></li>
+								<li><a href="#nino-story">About</a></li>
+								<li><a href="#nino-services">Service</a></li>
+								<li><a href="#nino-ourTeam">Our Team</a></li>
+								<li><a href="#nino-portfolio">Work</a></li>
+								-->
+								<li><a href="{% url 'logout' %}">Log Out</a></li>
+							</ul>
+
+						</div>
+
+
+
+
+					</div>
+
+
+				</div><!-- /.container-fluid -->
+			</nav>
+
+
+		</div>
+	</header><!--/#header-->
+<!-- ========================================================================================= -->
+
+
+	<section id="nino-story">
+		<div class="container">
+			<h2 class="nino-sectionHeading">
+				<span class="nino-subHeading">Hi {{tutor.firstName}}</span>
+				Edit/Update Tutor Information
+			</h2>
+      <a href="{% url 'main:tutor_home' %}" class="nino-btn1 w3-right"> Previous </a>
+      <br>
+
+			<br> <br>
+			<div class="month">
+			  <ul>
+			    <li class="prev" onclick="weekback()">&#10094;</li>
+			    <li class="next" onclick="weeknext()">&#10095;</li>
+			    <li>
+			      Set availability for the next 14 days <br>
+			      <span style="font-size:18px">for {{ tutor.firstName}} {{ tutor.lastName}}  </span>
+			    </li>
+			  </ul>
+			</div>
+
+			<div>
+			  <ul class="wdays">
+			    <li id="wd0" >Timings</li>
+			    <li ><p  id="wd1"></p></li>
+			      <li ><p  id="wd2"></p></li>
+			        <li ><p  id="wd3"></p></li>
+			          <li ><p  id="wd4"></p></li>
+			            <li ><p  id="wd5"></p></li>
+			              <li ><p  id="wd6"></p></li>
+			                <li ><p  id="wd7"></p></li>
+			  </ul>
+
+			<ul class="weekdays">
+			  <li id="d0" ></li>
+			  <li ><p  id="d1"></p></li>
+			    <li ><p  id="d2"></p></li>
+			      <li ><p  id="d3"></p></li>
+			        <li ><p  id="d4"></p></li>
+			          <li ><p  id="d5"></p></li>
+			            <li ><p  id="d6"></p></li>
+			              <li ><p  id="d7"></p></li>
+
+			</ul>
+
+
+
+			<ul class="days">
+			  <li id="0">09:00-09:30</li>
+			  <li onclick="calendarfn(s11)"><p id='s11'></p></li>
+			  <li><p id='s12'></p></li>
+			  <li><p id='s13'></p></li>
+			  <li><p id='s14'></p></li>
+			  <li><p id='s15'></p></li>
+			  <li><p id='s16'></p></li>
+			  <li><p id='s17'></p></li>
+
+
+			  <li><p id='1'>9:30-10:00</p></li>
+			  <li><p id='s115'></p></li>
+			  <li><p id='s125'></p></li>
+			  <li><p id='s135'></p></li>
+			  <li><p id='s145'></p></li>
+			  <li><p id='s155'></p></li>
+			  <li><p id='s165'></p></li>
+			  <li><p id='s175'></p></li>
+
+
+			  <li id="2">10:00-10:30</li>
+			  <li><p id='s21'></p></li>
+			  <li><p id='s22'></p></li>
+			  <li><p id='s23'></p></li>
+			  <li><p id='s24'></p></li>
+			  <li><p id='s25'></p></li>
+			  <li><p id='s26'></p></li>
+			  <li><p id='s27'></p></li>
+
+
+			  <li><p id='3'>10:30-11:00</p></li>
+			  <li><p id='s215'></p></li>
+			  <li><p id='s225'></p></li>
+			  <li><p id='s235'></p></li>
+			  <li><p id='s245'></p></li>
+			  <li><p id='s255'></p></li>
+			  <li><p id='s265'></p></li>
+			  <li><p id='s275'></p></li>
+
+
+			  <li id="4">11:00-11:30</li>
+			  <li><p id='s31'></p></li>
+			  <li><p id='s32'></p></li>
+			  <li><p id='s33'></p></li>
+			  <li><p id='s34'></p></li>
+			  <li><p id='s35'></p></li>
+			  <li><p id='s36'></p></li>
+			  <li><p id='s37'></p></li>
+
+
+			  <li><p id='5'>11:30-12:00</p></li>
+			  <li><p id='s315'></p></li>
+			  <li><p id='s325'></p></li>
+			  <li><p id='s335'></p></li>
+			  <li><p id='s345'></p></li>
+			  <li><p id='s355'></p></li>
+			  <li><p id='s365'></p></li>
+			  <li><p id='s375'></p></li>
+
+
+
+			  <li id="6">12:00-12:30</li>
+			  <li><p id='s41'></p></li>
+			  <li><p id='s42'></p></li>
+			  <li><p id='s43'></p></li>
+			  <li><p id='s44'></p></li>
+			  <li><p id='s45'></p></li>
+			  <li><p id='s46'></p></li>
+			  <li><p id='s47'></p></li>
+
+
+			  <li><p id='7'>12:30-01:00</p></li>
+			  <li><p id='s415'></p></li>
+			  <li><p id='s425'></p></li>
+			  <li><p id='s435'></p></li>
+			  <li><p id='s445'></p></li>
+			  <li><p id='s455'></p></li>
+			  <li><p id='s465'></p></li>
+			  <li><p id='s475'></p></li>
+
+			  <li id="8">01:00-01:30</li>
+			  <li><p id='s51'></p></li>
+			  <li><p id='s52'></p></li>
+			  <li><p id='s53'></p></li>
+			  <li><p id='s54'></p></li>
+			  <li><p id='s55'></p></li>
+			  <li><p id='s56'></p></li>
+			  <li><p id='s57'></p></li>
+
+			    <li><p id='9'>01:30-02:00</p></li>
+			    <li><p id='s515'></p></li>
+			    <li><p id='s525'></p></li>
+			    <li><p id='s535'></p></li>
+			    <li><p id='s545'></p></li>
+			    <li><p id='s555'></p></li>
+			    <li><p id='s565'></p></li>
+			    <li><p id='s575'></p></li>
+
+			  <li id="10">02:00-02:30</li>
+			  <li><p id='s61'></p></li>
+			  <li><p id='s62'></p></li>
+			  <li><p id='s63'></p></li>
+			  <li><p id='s64'></p></li>
+			  <li><p id='s65'></p></li>
+			  <li><p id='s66'></p></li>
+			  <li><p id='s67'></p></li>
+
+
+			    <li><p id='11'>02:30-03:00</p></li>
+			    <li><p id='s615'></p></li>
+			    <li><p id='s625'></p></li>
+			    <li><p id='s635'></p></li>
+			    <li><p id='s645'></p></li>
+			    <li><p id='s655'></p></li>
+			    <li><p id='s665'></p></li>
+			    <li><p id='s675'></p></li>
+
+
+			<li id="12">03:00-03:30</li>
+			<li><p id='s71'></p></li>
+			<li><p id='s72'></p></li>
+			<li><p id='s73'></p></li>
+			<li><p id='s74'></p></li>
+			<li><p id='s75'></p></li>
+			<li><p id='s76'></p></li>
+			<li><p id='s77'></p></li>
+
+
+			  <li><p id='13'>03:30-04:00</p></li>
+			  <li><p id='s715'></p></li>
+			  <li><p id='s725'></p></li>
+			  <li><p id='s735'></p></li>
+			  <li><p id='s745'></p></li>
+			  <li><p id='s755'></p></li>
+			  <li><p id='s765'></p></li>
+			  <li><p id='s775'></p></li>
+
+
+
+
+			    <li id="14">04:00-04:30</li>
+			    <li><p id='s81'></p></li>
+			    <li><p id='s82'></p></li>
+			    <li><p id='s83'></p></li>
+			    <li><p id='s84'></p></li>
+			    <li><p id='s85'></p></li>
+			    <li><p id='s86'></p></li>
+			    <li><p id='s87'></p></li>
+
+
+			      <li><p id='15'>04:30-05:00</p></li>
+			      <li><p id='s815'></p></li>
+			      <li><p id='s825'></p></li>
+			      <li><p id='s835'></p></li>
+			      <li><p id='s845'></p></li>
+			      <li><p id='s855'></p></li>
+			      <li><p id='s865'></p></li>
+			      <li><p id='s875'></p></li>
+
+
+			</ul>
+			</div>
+
+			<h4 id="selected"></h4>
+			<br>
+
+			<p id='bookbtn'></p	>
+
+
+			<script>
+			</script>
+
+			<script>
+			var weekno=1;
+			function generateElements(weekno){
+			var curdString="{{currentDate}}";
+			var curt="{{currentTime}}";
+			var myDate = new Date(curdString);
+			if(weekno==2)
+			{
+			  myDate.setDate(myDate.getDate()+7); document.getElementById('bookbtn').innerHTML+"WEEK2";
+			}
+			var i;
+			for (i = 1; i <= 7; i++) {
+			  var g="d"+i;
+			  var g1="wd"+i;
+			  myDate.setDate(myDate.getDate() + 1);
+			  var myDS=myDate.toDateString();
+			  var myDay=myDate.getDay();
+			  document.getElementById(g1).innerHTML = myDS[0]+myDS[1]+myDS[2];
+			  document.getElementById(g).innerHTML = myDS.substring(4);
+			}
+			var j;
+			/////////////TO set inner elements
+			myDate = new Date(curdString);
+			if(weekno==2)
+			{
+			  myDate.setDate(myDate.getDate()+7); document.getElementById('bookbtn').innerHTML+"WEEK2";
+			}
+			var checktut="{{ tutor.tutorType }}";
+			if(checktut.valueOf() == 0){
+			for (i = 1; i <= 7; i++) {
+			  for (j = 1; j <= 8; j++) {
+			  var g="s"+j+i;
+			  var g1="s"+j+i+"5";
+			  document.getElementById(g).innerHTML = "Available";
+			  document.getElementById(g).className="available";
+			  document.getElementById(g1).innerHTML = "Available";
+			  document.getElementById(g1).className="available";
+			}}
+			}
+			else {
+			  for (i = 1; i <= 7; i++) {
+			    for (j = 1; j <= 8; j++) {
+			    var g="s"+j+i;
+			    document.getElementById(g).innerHTML = "Available";
+			    document.getElementById(g).className="available";
+			  }}
+			}
+			{% for entry in slots %}
+			var val="{{ entry.startTime|time:'H:i'}} {{ entry.endTime|time:'H:i'}}";
+			var myDate1 = new Date("{{entry.date}}");
+			//myDate = new Date(curdString);
+			for (j = 1; j <= 7; j++) {
+			var curd1 = new Date();
+			curd1.setDate(myDate.getDate() + j);
+			var s1=myDate1.getDate();
+			var s2=curd1.getDate();
+			if( s1.valueOf() === s2.valueOf())
+			{
+			  var tempo = val[0]+val[1];
+			  var timecur= parseInt(tempo) - 9;
+			  //document.getElementById('debug').innerHTML = timecur;
+			  if(timecur>=0 && val[3]==3)
+			  {
+			  id= (timecur+1)*10 + j;
+			  var a="s"+id+"5";
+			  //document.getElementById('s44').innerHTML = id;
+			  document.getElementById(a).innerHTML = "Blocked";
+			  document.getElementById(a).className="blocked";
+			  }
+			  else if(timecur>=0)
+			  {
+			  id= (timecur+1)*10 + j;
+			  var a="s"+id;
+			  //document.getElementById('s44').innerHTML = id;
+			  document.getElementById(a).innerHTML = "Blocked";
+			  document.getElementById(a).className="blocked";
+			  }
+			}
+			}
+			{% endfor %}
+			{% for session in sessions %}
+			var val="{{session.bookedStartTime|time:'H:i'}}"
+			var myDate1 = new Date("{{session.bookedDate}}");
+			//myDate = new Date(curdString);
+			for (j = 1; j <= 7; j++) {
+			var curd1 = new Date();
+			curd1.setDate(myDate.getDate() + j);
+			var s1=myDate1.getDate();
+			var s2=curd1.getDate();
+			//document.getElementById('s56').innerHTML = val;
+			if( s1.valueOf() === s2.valueOf())
+			{
+			  var tempo = val[0]+val[1];
+			  var timecur= parseInt(tempo) - 9;
+			  if(timecur>=0 && val[3]==3)
+			  {
+			  id= (timecur+1)*10 + j;
+			  var a="s"+id+"5";
+			  //document.getElementById('s44').innerHTML = id;
+			  document.getElementById(a).innerHTML = "Booked";
+			  document.getElementById(a).className="booked";
+			  }
+			  else if(timecur>=0)
+			  {
+			  id= (timecur+1)*10 + j;
+			  var a="s"+id;
+			  //document.getElementById('s44').innerHTML = id;
+			  document.getElementById(a).innerHTML = "Booked";
+			  document.getElementById(a).className="booked";
+			  }
+			}
+			}
+			{% endfor %}
+			}
+			generateElements(weekno);
+			var ctr=1;
+			var timez=9;
+			var checktut="{{ tutor.tutorType }}";
+			for (var i = 1; i <= 7; i++) {
+			  for (var j = 1; j <= 8; j++) {
+			  var g="s"+j+i;
+			  var g1="s"+j+i+"5";
+			    //document.getElementById(g).addEventListener("click",calendarfn);
+			    if(checktut.valueOf() == 1 && ctr<16){//if private
+			        document.getElementById(ctr.toString()).innerHTML="";ctr=ctr+2;
+			        document.getElementById((ctr-3).toString()).innerHTML= timez+":00 - "+(timez+1)+":00";timez++;
+			      }
+			      else{
+			        document.getElementById(g1).addEventListener("click",calendarfn);
+			      }
+			}
+			}
+			weekno=1;
+			function weeknext(){
+			weekno=2;//Update dates
+			generateElements(weekno);
+			}
+			function weekback(){
+			  weekno=1;
+			generateElements(weekno);
+			var a="{{currentTime}}";
+			for(var i=1;i<=8;i++){
+			  var g="s"+i+"1";
+			  if((i+8)<parseInt(a[0]+a[1]))
+			  {
+			    document.getElementById(g).innerHTML="Elapsed";
+			    document.getElementById(g).className="elapsed";
+			    for(var k=1;k<=(i+8);k++)
+			    {
+			      if(checktut==0 && k!=(i+8))
+			      {
+			        document.getElementById(g+"5").innerHTML="Elapsed";
+			        document.getElementById(g+"5").className="elapsed";
+			      }
+			    }
+			    if(checktut==0 && (parseInt(a[3])>=3))
+			    {
+			      document.getElementById(g+"5").innerHTML="Elapsed";
+			      document.getElementById(g+"5").className="elapsed";
+			    }
+			  }
+			  else if(i+8 == parseInt(a[0]+a[1]))
+			  {
+			      var g="s"+i+"1";
+			      document.getElementById(g).innerHTML="Elapsed";
+			      document.getElementById(g).className="elapsed";
+			      if(checktut==0 && parseInt(a[3])>=3)
+			      {
+			        document.getElementById(g+"5").innerHTML="Elapsed";
+			        document.getElementById(g+"5").className="elapsed";
+			      }
+			  }
+			}
+			}
+			if(weekno == 1){
+			var a="{{currentTime}}";
+			for(var i=1;i<=8;i++){
+			  var g="s"+i+"1";
+			  if((i+8)<parseInt(a[0]+a[1]))
+			  {
+			    document.getElementById(g).innerHTML="Elapsed";
+			    document.getElementById(g).className="elapsed";
+			    for(var k=1;k<=(i+8);k++)
+			    {
+			      if(checktut==0 && k!=(i+8))
+			      {
+			        document.getElementById(g+"5").innerHTML="Elapsed";
+			        document.getElementById(g+"5").className="elapsed";
+			      }
+			    }
+			    if(checktut==0 && (parseInt(a[3])>=3))
+			    {
+			      document.getElementById(g+"5").innerHTML="Elapsed";
+			      document.getElementById(g+"5").className="elapsed";
+			    }
+			  }
+			  else if(i+8 == parseInt(a[0]+a[1]))
+			  {
+			      var g="s"+i+"1";
+			      document.getElementById(g).innerHTML="Elapsed";
+			      document.getElementById(g).className="elapsed";
+			      if(checktut==0 && parseInt(a[3])>=3)
+			      {
+			        document.getElementById(g+"5").innerHTML="Elapsed";
+			        document.getElementById(g+"5").className="elapsed";
+			      }
+			  }
+			}
+			}
+			//Active Box
+			function getParameterByName(name, url) {
+			    if (!url) url = window.location.href;
+			    name = name.replace(/[\[\]]/g, "\\$&");
+			    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			        results = regex.exec(url);
+			    if (!results) return null;
+			    if (!results[2]) return '';
+			    return decodeURIComponent(results[2].replace(/\+/g, " "));
+			}
+			var sendTutorID = getParameterByName('value1');
+			var checktut="{{ tutor.tutorType }}";
+			var selected=0;
+			var currentid;
+			var selecteddate=new Date();
+			var selectedStarttime;
+			var selectedmins;
+			var BorUB=0;
+			var selectedEndTime=new Date();
+			//document.getElementById("payment").innerHTML == "HI";
+			function calendarfn() {
+			  //document.getElementById('s66').innerHTML="Hi";
+			  if(document.getElementById(this.id).innerHTML == "Blocked")
+			  {
+			    document.getElementById(this.id).innerHTML = "Available"
+			    document.getElementById(this.id).className="available";
+			    //Here UnblockSession()
+			    BorUB=1;
+			    currentid=this.id;
+			    var iddate=parseInt(currentid[2]);
+			    myDate=new Date("{{currentDate}}");
+			    selecteddate.setDate(myDate.getDate() + iddate);
+			    if(checktut==0){
+			    if(parseInt(currentid[3])==5)
+			    {selectedmins=30;}
+			    else {selectedmins=0;}}
+			    else {selectedmins=0;}
+			    selecteddate.setHours(parseInt((parseInt(currentid[1]))+8)); selecteddate.setMinutes(selectedmins);
+			    selectedEndTime.setDate(selecteddate.getDate()); selectedEndTime.setHours(selecteddate.getHours());
+			    if(checktut==0){selectedEndTime.setMinutes(selecteddate.getMinutes()+30);}
+			    else {selectedEndTime.setMinutes(selecteddate.getMinutes()+60);}
+			    //document.getElementById('bookbtn').innerHTML=selecteddate;
+			    blockSession(BorUB);
+			    //document.getElementById('selected').innerHTML = "Selected Slot: "+selecteddate.getDate()+"-"+(selecteddate.getMonth()+1)+"-"+selecteddate.getUTCFullYear()+" at "+selecteddate.getHours()+":"+(selecteddate.getMinutes()<10?'0':'') + selecteddate.getMinutes()+" to "+selectedEndTime.getHours()+":"+(selectedEndTime.getMinutes()<10?'0':'')+selectedEndTime.getMinutes();
+			  }
+			    else if(document.getElementById(this.id).innerHTML == "Available")
+			    {
+			      document.getElementById(this.id).className = "blocked";
+			      document.getElementById(this.id).innerHTML = "Blocked";
+			      //Here BlockSession()
+			      BorUB=2;
+			      currentid=this.id;
+			      var iddate=parseInt(currentid[2]);
+			      myDate=new Date("{{currentDate}}");
+			      selecteddate.setDate(myDate.getDate() + iddate);
+			      if(checktut==0){
+			      if(parseInt(currentid[3])==5)
+			      {selectedmins=30;}
+			      else {selectedmins=0;}}
+			      else {selectedmins=0;}
+			      selecteddate.setHours(parseInt((parseInt(currentid[1]))+8)); selecteddate.setMinutes(selectedmins);
+			      selectedEndTime.setDate(selecteddate.getDate());
+			      selectedEndTime.setHours(selecteddate.getHours());
+			      if(checktut==0){selectedEndTime.setMinutes(selecteddate.getMinutes()+30);}
+			      else {selectedEndTime.setMinutes(selecteddate.getMinutes()+60);}
+			      blockSession(BorUB);
+			      //document.getElementById('bookbtn').innerHTML="Hi";
+			      //document.getElementById('selected').innerHTML = "Selected Slot: "+selecteddate.getDate()+"-"+(selecteddate.getMonth()+1)+"-"+selecteddate.getUTCFullYear()+" at "+selecteddate.getHours()+":"+(selecteddate.getMinutes()<10?'0':'') + selecteddate.getMinutes()+" to "+selectedEndTime.getHours()+":"+(selectedEndTime.getMinutes()<10?'0':'')+selectedEndTime.getMinutes();
+			  }
+			}
+			var URL = "{% url 'main:blockSuccess' %}";
+			function blockSession(decision){
+			  //document.getElementById('bookbtn').innerHTML = "GAYSEX";
+			  if(weekno==2)
+			  {
+			   selecteddate.setDate(selecteddate.getDate() + 7);
+			  }
+			var bookeddate=selecteddate;
+			var senddate=selecteddate.getUTCFullYear()+"-"+(selecteddate.getMonth()+1)+"-"+selecteddate.getDate();
+			var sendtime=selecteddate.getHours()+":"+(selecteddate.getMinutes()<10?'0':'') + selecteddate.getMinutes();
+			var endingTime=selectedEndTime.getHours()+":"+(selectedEndTime.getMinutes()<10?'0':'')+selectedEndTime.getMinutes();
+			//document.getElementById('bookbtn').innerHTML=sendtime;
+			//document.getElementById('bookbtn').innerHTML=selecteddate;
+			//document.getElementById('bookbtn').innerHTML = selecteddate;
+			    var data = {
+			    'blockeddate': senddate,
+			    'startTime': sendtime,
+			    'endTime': endingTime,
+			    'tutID': sendTutorID,
+			    'decision': decision,
+			    'csrfmiddlewaretoken': '{{ csrf_token }}'};
+			    $.post(URL, data, function(response){
+			        if(response === 'success'){ alert('Success!'); location.reload(); }
+			        else{ alert('Error! :('); }
+			    });
+			}
+			</script>
+			<script>
+			function myFunction() {
+			   var a="{{ tutor.firstName}}  {{ tutor.lastName}}";
+			   var amt = "{{ tutor.hourly_rate}}";
+			   var bal = "{{balance.wallet}}";
+			   alert("You have booked your session with "+a +". The fee for this session is HKD"+amt + ". Your balance amount is HKD" + bal);
+			}
+			</script>
+			<script>
+			$(document).ready(function(){
+			  var checktut="{{ tutor.tutorType }}";
+			  for (var i = 1; i <= 7; i++) {
+			    for (var j = 1; j <= 8; j++) {
+			      var g="s"+j+i;
+			      var g1="s"+j+i+"5";
+			      document.getElementById(g).addEventListener("click",calendarfn);
+			      if(checktut.valueOf() == 0){
+			        document.getElementById(g1).addEventListener("click",calendarfn);
+			      }
+			    }}
+			});
+			</script>
+
+
+
+</div>
+</section><!--/#nino-story-->
+
+
+<footer id="footer" class="footer">
+  <div class="container text-center">
+      <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+              <div class="main-footer">
+                  <p>Made with <i class="fa fa-heart"></i> by <b>The Binary Baboons</b> 2017</p>
+
+              </div>
+          </div>
+      </div>
+  </div>
+
+</footer>
+<!-- Scroll to top
+================================================== -->
+<a href="#" id="nino-scrollToTop">Go to Top</a>
+
+<!-- javascript -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/isotope.pkgd.min.js"></script>
+<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery.hoverdir.js"></script>
+<script type="text/javascript" src="js/modernizr.custom.97074.js"></script>
+<script type="text/javascript" src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="js/unslider-min.js"></script>
+<script type="text/javascript" src="js/template.js"></script>
+
+</body>
+</html>
